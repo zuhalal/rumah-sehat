@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Rumah Sehat</title>
+    <head th:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    </head>
+    <head th:fragment="js">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+</head>
+<body>
+<nav th:fragment="navbar(page)" class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand font-weight-bold text-primary" href="#">Rumah Sehat</a>
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle Navigation"
+    ><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <ul class="navbar-nav mr-auto">
+            <a th:classappend="${page == 'home' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/}">
+                Beranda
+            </a>
+            <a th:classappend="${page == 'obat' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/obat/viewall}" sec:authorize="hasAnyAuthority('ADMIN', 'APOTEKER')">
+                Obat
+            </a>
+            <a th:classappend="${page == 'resep' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/resep/viewall}" sec:authorize="hasAnyAuthority('ADMIN', 'APOTEKER')">
+                Resep
+            </a>
+            <a th:classappend="${page == 'appointment' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/appointment/viewall}" sec:authorize="hasAuthority('ADMIN')">
+                Appointment
+            </a>
+            <a th:classappend="${page == 'appointment' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/appointment/viewall}" sec:authorize="hasAuthority('DOKTER')">
+                Appointment Dokter
+            </a>
+            <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Manajemen User
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a th:classappend="${page == 'dokter' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/dokter/viewall}">Dokter</a>
+                    <a th:classappend="${page == 'apoteker' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/apoteker/viewall}">Apoteker</a>
+                </div>
+            </li>
+            <a th:classappend="${page == 'pasien' ? 'active' : ''}" class="nav-item nav-link" th:href="@{/pasien/viewall}">
+                Pasien
+            </a>
+        </ul>
+        <ul class="navbar-nav pull-right">
+            <a class="nav-item nav-link text-secondary" th:href="@{/logout-sso}">Logout</a>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

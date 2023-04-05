@@ -1,0 +1,35 @@
+server:
+  address: 0.0.0.0
+  port: 8080
+
+spring:
+  # konfigurasi untuk koneksi db
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+
+    # sesuaikan nama database anda dengan di bawah ini
+    url: jdbc:mysql://db:3306/rumahsehat?useSSL=false&serverTimezone=Asia/Jakarta
+
+    # sesuaikan dengan NAMA dan PASSWORD anda dengan username password di bawah ini
+    username: apap_user
+    password: password1234!
+
+  main:
+    allow-circular-references: true
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+
+    # pembuatan database (create || create-drop || validate || update)
+    hibernate.ddl-auto: update
+
+    show-sql: true
+
+jwt:
+  secret: rumahsehat69
+
+sso:
+  url: https://apap-069.cs.ui.ac.id

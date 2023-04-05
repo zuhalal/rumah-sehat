@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>Rumah Sehat - Detail Resep</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+</head>
+<body>
+<header th:insert="fragments/fragment.html :: navbar('resep')"></header>
+<main class="container">
+    <section class="d-flex flex-column min-vh-100 p-4" style="gap: 24px;">
+        <h2 class="fw-bold display-6">Detail Resep</h2>
+        <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"><br></div>
+        <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"><br></div>
+        <div class="d-flex" style="gap: 8px;">
+            <a href="/" class="btn btn-primary">Beranda</a>
+            <a th:if="${role == 'ADMIN' or role == 'APOTEKER'}" href="/resep/viewall" class="btn btn-primary">Kembali ke Daftar Resep</a>
+        </div>
+        <section class="d-flex flex-column" th:object="${resep}" th:unless="${error == 'Resep tidak ditemukan'}">
+            <p th:text="'ID Resep: ' + *{id}"></p>
+            <p th:text="'Nama Dokter: ' + *{kodeAppointment.dokter.nama}"></p>
+            <p th:text="'Nama Pasien: ' + *{kodeAppointment.pasien.nama}"></p>
+            <p th:if="*{isDone}">Status Resep: Selesai</p>
+            <p th:unless="*{isDone}">Status Resep: Belum Selesai</p>
+            <p th:unless="*{confirmerUUID}">Nama Apoteker Pengonfirmasi: -</p>
+            <p th:if="*{confirmerUUID}" th:text="'Nama Apoteker Pengonfirmasi: ' + *{confirmerUUID.nama}"></p>
+            <div>
+                <p th:text="'Jumlah obat: ' + *{listJumlah.size}"></p>
+                <p>Daftar Obat: </p>
+                <table class="table w-100" th:if="*{listJumlah.size != 0}">
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Obat</th>
+                        <th>Stok Obat</th>
+                        <th>Harga</th>
+                        <th>Kuantitas</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="jumlahObat, iterationStatus : *{listJumlah}">
+                            <td th:text="${iterationStatus.count}"></td>
+                            <td th:text="${jumlahObat.obat.namaObat}"></td>
+                            <td th:text="${jumlahObat.obat.stok}"></td>
+                            <td th:text="${jumlahObat.obat.harga}"></td>
+                            <td th:text="${jumlahObat.kuantitas}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form th:if="${!resep.isDone} and ${role == 'APOTEKER'}" method="post" th:object="${resep}" th:action="@{/resep/confirm/} + ${resep.id}">
+                <button class="btn btn-primary" type="submit">Konfirmasi Resep</button>
+            </form>
+        </section>
+    </section>
+</main>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</body>
+</html>

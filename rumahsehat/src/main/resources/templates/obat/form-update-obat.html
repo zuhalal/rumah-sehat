@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>RumahSehat</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+
+<nav th:replace="fragments/fragment :: navbar('obat')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Mengubah Stok Obat</h2>
+                <br>
+                <form th:action="@{/obat/update/} + ${obat.idObat}" th:object="${obat}" method="POST">
+
+
+                    <label>Nama</label>
+                    <input type="text" name="namaObat" th:value="${obat.namaObat}" class="form-control" disabled/>
+                    <br>
+
+                    <label>Stok</label>
+                    <input type="number" name="stok" th:value="${obat.stok}" class="form-control" required />
+
+                    <button class="btn btn-primary" type="submit" name="save" style="margin-block-start: 20px;">Simpan</button>
+                    <a class="btn btn-primary" href="javascript:history.back()" style="margin-block-start: 20px;">Kembali</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

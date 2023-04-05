@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>Rumah Sehat - Detail Appointment</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+</head>
+<body>
+<header th:insert="fragments/fragment.html :: navbar('appointment')"></header>
+<main class="container">
+  <section class="d-flex flex-column min-vh-100 p-4" style="gap: 24px;">
+    <h2 class="fw-bold display-6">Detail Appointment</h2>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"><br></div>
+    <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"><br></div>
+    <section class="d-flex flex-column" th:object="${appointment}">
+      <div th:if="${appointment == null}">
+        <p>Tidak ada Appointment yang dituju.</p>
+      </div>
+
+  <!--        Resep ada dan sudah selesai-->
+          <div th:if="*{resep != null && resep.isDone == true}">
+            <form th:action="@{/appointment/detail/} + *{kode}" method="POST">
+              <button class="btn btn-primary" type="submit" name="save">Selesai</button>
+            </form>
+          </div>
+  <!--        Resep belum ada-->
+          <div th:unless="*{resep != null}">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#doneModal">
+              Selesai
+            </button>
+            <div class="modal fade" id="doneModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Perhatian</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    Anda belum memiliki resep.
+                    <br>
+                    Apakah Anda yakin hendak menyelesaikan appointment ini?
+                  </div>
+                  <div class="modal-footer">
+                    <form th:action="@{/appointment/detail/} + *{kode}" method="POST">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" type="submit" name="save">Selesai</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div>
+        <a class="btn btn-primary" th:if="${resep}" th:href="@{/resep/detail/} + ${resep.id}">Detail Resep</a>
+      </div>
+    </section>
+  </section>
+</main>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</body>
+</html>

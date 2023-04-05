@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>403 Forbidden</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('500')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Maaf, Anda tidak memiliki akses ke halaman ini</h2>
+                <br>
+                <a class="btn btn-primary" href="/">Kembali</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

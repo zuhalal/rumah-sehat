@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>RumahSehat</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+
+<nav th:replace="fragments/fragment :: navbar('resep')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body">
+            <div class="justify-content-center">
+                <h2>Tambah Resep</h2>
+                <br>
+                <form th:action="@{/resep/add/} + ${kode}" th:object="${resep}" method="POST">
+                    <table class="table">
+                        <thead>
+                        <th>Daftar Resep</th>
+                        <th>
+                            <button class="btn btn-primary" type="submit" name="addRowJumlah">Tambah Resep</button>
+                        </th>
+                        </thead>
+                        <tbody>
+                        <tr th:each="jumlah,iterationStatus: *{listJumlah}">
+                            <td>
+                                <select name="idJumlah" th:field="*{listJumlah[__${iterationStatus.index}__].obat.idObat}"
+                                        class="form-control js-example-basic-single">
+                                    <div th:each="obatEx, iterationStatus2 : ${listObatExisting}">
+                                        <option th:value="${obatEx.idObat}" th:text="${obatEx.namaObat}"></option>
+                                    </div>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="form-control" type="text" th:field="*{listJumlah[__${iterationStatus.index}__].kuantitas}"/>
+                            </td>
+                            <td>
+                                <button th:value="${iterationStatus.index}" class="btn btn-danger" type="submit"
+                                        name="deleteRowJumlah">Hapus</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <button class="btn btn-primary" type="submit" name="save">Submit</button>
+                    <a class="btn btn-primary" href="/">Home</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+</script>
+</body>
+</html>

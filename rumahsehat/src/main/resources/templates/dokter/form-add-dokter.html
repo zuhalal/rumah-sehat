@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <title>RumahSehat</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+
+<nav th:replace="fragments/fragment :: navbar('dokter')"></nav>
+<div class="container">
+  <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+  <div class="alert alert-danger" role="alert" th:text="${success}" th:if="${success}"></div>
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="justify-content-center">
+        <h2>Tambah Dokter</h2>
+        <br>
+        <form th:action="@{/dokter/add}" th:object="${dokter}" method="POST">
+
+
+            <label>Nama</label>
+            <input type="text" name="nama" class="form-control" required />
+
+            <br>
+
+            <label>Username</label>
+            <input type="text" name="username" class="form-control" required />
+
+            <br>
+
+            <label>Password</label>
+            <input type="password" name="password" class="form-control"
+              required
+              pattern="^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+*!=]).*$"
+              title="Password harus mengandung angka, huruf besar, huruf kecil, dan simbol serta minimal memiliki 8 karakter"
+            />
+
+            <br>
+
+            <label>E-mail</label>
+            <input type="email" name="email" class="form-control" required />
+
+            <br>
+          
+            <label>Tarif</label>
+            <input type="number" name="tarif" class="form-control" required />
+
+
+          <button class="btn btn-primary" type="submit" name="save" style="margin-block-start: 20px;">Submit</button>
+          <a class="btn btn-primary" href="javascript:history.back()" style="margin-block-start: 20px;">Kembali</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

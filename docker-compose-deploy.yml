@@ -1,0 +1,35 @@
+version: '2'
+services:
+  web:
+    image: apap-registry.cs.ui.ac.id/zuhal.alimul/apap-069
+    restart: always
+    ports:
+      - "10069:8080"
+    volumes:
+      - ./file-storage:/file-storage
+      - ./log:/log
+    env_file:
+      - app.env
+    depends_on:
+      - db
+    networks:
+      - frontend-network
+      - backend-network
+
+  db:
+    image: mariadb:10.4.24
+    restart: always
+    env_file:
+      - app.env
+    volumes:
+      - mysql-db-volume:/var/lib/mysql
+    networks:
+      - backend-network
+
+volumes:
+  mysql-db-volume:
+
+networks:
+  frontend-network:
+    driver: bridge
+  backend-network:

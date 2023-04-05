@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<head>
+    <meta charset="UTF-8">
+    <title>RumahSehat</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('home')"></nav>
+<div class="d-flex justify-content-center">
+    <div class="m-4">
+        <div class="d-flex justify-content-center">
+            <h2 th:text="'Hello ' + ${#httpServletRequest.remoteUser} + '!'"></h2>
+        </div>
+    </div>
+</div>
+</body>
+</html>

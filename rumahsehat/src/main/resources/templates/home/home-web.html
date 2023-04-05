@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>RumahSehat - Home</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar('home')"></nav>
+<div class="container"><br><br>
+<!--    <div class="card m-4 p-4">-->
+        <div class="d-flex justify-content-center"><br>
+            <h2 th:text="'Hello ' + ${#httpServletRequest.remoteUser} + '! Selamat bekerja!'"></h2>
+        </div>
+<!--    </div>-->
+    <br>
+    <div class="row row-cols-1 row-cols-md-4 mb-4 text-center" sec:authorize="hasAuthority('ADMIN')">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Obat</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Lihat daftar obat</li>
+                    </ul>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" th:href="@{/obat/viewall/}">Obat</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Resep</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Lihat daftar resep</li>
+                    </ul>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" th:href="@{/resep/viewall/}">Resep</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Appointment</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Lihat seluruh appoinment</li>
+                    </ul>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" th:href="@{/appointment/viewall/}">Appointment</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Manajemen User</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Lihat user Rumah Sehat</li>
+                    </ul>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary mr-1" th:href="@{/dokter/viewall/}">Dokter</a><br><br>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary mr-1" th:href="@{/apoteker/viewall/}">Apoteker</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 mb-2 text-center" sec:authorize="hasAuthority('APOTEKER')">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Obat</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Lihat daftar obat</li>
+                    </ul>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" th:href="@{/obat/viewall/}">Obat</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Resep</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Lihat daftar resep</li>
+                    </ul>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" th:href="@{/resep/viewall/}">Resep</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-1 mb-1 text-center" sec:authorize="hasAuthority('DOKTER')">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Appointment Dokter</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4">
+                        <li>Lihat appointment saya</li>
+                    </ul>
+                    <a type="button" class="w-100 btn btn-lg btn-outline-primary" th:href="@{/appointment/viewall/}">Appointment Dokter</a><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="page-footer font-small blue">
+        <div class="footer-copyright text-center py-3">© 2022 - TA_B_DEN_69</div>
+    </footer>
+</div>
+</body>
+</html>

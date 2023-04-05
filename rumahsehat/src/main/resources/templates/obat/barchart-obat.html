@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <title>RumahSehat</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<body>
+<nav th:replace="fragments/fragment :: navbar('obat')"></nav>
+<div class="container">
+    <div class="card m-4 p-4">
+        <div class="card-body d-flex flex-column" style="gap: 12px;">
+            <h2 class="mt-4 py-4">Chart</h2>
+            <div class="d-flex" style="gap: 12px;">
+                <a class="btn btn-primary" href="/">Beranda</a>
+                <a class="btn btn-primary" href="/obat/viewall">Kembali</a>
+            </div>
+            <form id="form-data-barchart">
+                <label>Tarif</label>
+                <select name="tipe" class="form-control">
+                    <option value="Kuantitas Penjualan">Kuantitas Penjualan</option>
+                    <option value="Total Pendapatan">Total Pendapatan</option>
+                </select>
+                <br>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <select name="obat1" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <select name="obat2" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <select name="obat3" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <select name="obat4" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <select name="obat5" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <select name="obat6" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <select name="obat7" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <select name="obat8" class="form-control">
+                            <option value="None">Tidak Ada</option>
+                            <option th:each="obat : ${listObat}" th:value="${obat.namaObat}" th:text="${obat.namaObat}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" id="get-data" type="submit" style="margin-block-start: 20px;">Submit</button>
+
+            </form>
+            
+        </div>
+        <br>
+        <div class="card-body d-flex flex-column" style="gap: 12px;">
+            <div id="barchart-view" class="chart-container pb-5 mb-5" style="width:80%">
+                <h2>Belum Ada Data</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        
+        $("form").submit(function(e){
+        e.preventDefault();
+        $('#barchart-view').empty();
+        $('#barchart-view').append('<canvas id="barchart-obat"></canvas>');
+        var obat = "";
+        obat += $('[name=obat1]').val().replace(/\//g, "=") + "!"
+        obat += $('[name=obat2]').val().replace(/\//g, "=") + "!"
+        obat += $('[name=obat3]').val().replace(/\//g, "=") + "!"
+        obat += $('[name=obat4]').val().replace(/\//g, "=") + "!"
+        obat += $('[name=obat5]').val().replace(/\//g, "=") + "!"
+        obat += $('[name=obat6]').val().replace(/\//g, "=") + "!"
+        obat += $('[name=obat7]').val().replace(/\//g, "=") + "!"
+        obat += $('[name=obat8]').val().replace(/\//g, "=")
+        console.log(obat);
+        
+        $.ajax({
+        type: "GET",
+        url: '/obat/chart/barchart/'+obat+'/'+$('[name=tipe]').val(),
+        // contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (obj) {
+            
+            console.log(obj)
+            const labels = obj.data.map(function(e) {
+                return e.obat.namaObat;
+            });
+            
+            const tipe = obj.tipe;
+            
+            const data = obj.data.map(function(e) {
+                return e.kuantitas;
+                });
+                
+            console.log(labels)
+            
+
+            const  config = {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: tipe+" Obat",
+                        data,
+                        backgroundColor: 'rgba(40,143,201,0.72)',
+                        borderColor: 'rgba(20,77,143,0.7)'
+                    }]
+                }
+            };
+
+            const chart = new Chart(document.getElementById("barchart-obat"), config);
+        }
+    });
+
+  });
+    })
+</script>
+</body>
+</html>

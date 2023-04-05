@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>RumahSehat - Appointment</title>
+  <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+  <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<body>
+<nav th:replace="fragments/fragment :: navbar('appointment')"></nav>
+<div class="container">
+  <div class="card m-4 p-4">
+    <div class="card-body">
+      <div class="d-flex flex-column justify-content-center w-100" style="gap: 16px;">
+        <h2>Daftar Appointment</h2>
+        <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"><br></div>
+        <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"><br></div>
+        <div class="d-flex" style="gap: 12px;">
+          <a class="btn btn-primary" href="/">Beranda</a>
+        </div>
+        <br>
+        <div class="alert alert-danger" style="text-align:center" th:unless="${listAppointment.size>0}">
+          Belum ada appointment.
+        </div>
+        <div class="w-100" sec:authorize="hasAuthority('ADMIN')">
+          <table class="table w-100" th:if="${listAppointment.size>0}">
+            <thead>
+            <tr style="text-align: center;">
+              <th>No</th>
+              <th>Kode Appointment</th>
+              <th>Nama Dokter</th>
+              <th>Nama Pasien</th>
+              <th>Waktu Awal Appointment</th>
+              <th>Status Appointment</th>
+              <th>Detail</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="appointment, iterationStatus : ${listAppointment}"
+                th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+              <td th:text="${iterationStatus.count}"></td>
+              <td th:text="${appointment.kode}"></td>
+              <td th:text="${appointment.dokter.nama}"></td>
+              <td th:text="${appointment.pasien.nama}"></td>
+              <td th:text="${#temporals.format(appointment.waktuAwal, 'dd MMMM yyyy HH:mm')}"></td>
+              <td th:if="${appointment.isDone}">Selesai</td>
+              <td th:unless="${appointment.isDone}">Belum Selesai</td>
+              <td>
+                <div class="col">
+                  <a class="btn btn-primary" th:href="@{/appointment/detail/} + ${appointment.kode}">Detail Appointment</a>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row row-cols-1 row-cols-md-4 mb-4 text-center w-100" sec:authorize="hasAuthority('DOKTER')">
+          <table class="table w-100" th:if="${listAppointment.size>0}">
+            <thead>
+            <tr style="text-align: center;">
+              <th>No</th>
+              <th>Kode Appointment</th>
+              <th>Nama Pasien</th>
+              <th>Waktu Awal Appointment</th>
+              <th>Status Appointment</th>
+              <th>Detail</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="appointment, iterationStatus : ${listAppointment}"
+                th:style="${iterationStatus.even} ? 'font-weight:bold;'">
+              <td th:text="${iterationStatus.count}"></td>
+              <td th:text="${appointment.kode}"></td>
+              <td th:text="${appointment.pasien.nama}"></td>
+              <td th:text="${#temporals.format(appointment.waktuAwal, 'dd MMMM yyyy HH:mm')}"></td>
+              <td th:if="${appointment.isDone}">Selesai</td>
+              <td th:unless="${appointment.isDone}">Belum Selesai</td>
+              <td>
+                <div class="col">
+                  <a class="btn btn-primary" th:href="@{/appointment/detail/} + ${appointment.kode}">Detail Appointment</a>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
