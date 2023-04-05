@@ -1,6 +1,8 @@
 # Tugas Akhir
 ### Kelompok 69 - Rumah Sehat
 
+#### Final Project Presentation Document: https://drive.google.com/file/d/1i0Vi6KSKH3IwQ7-5bZcqJmegUeHVyLZk/view?usp=sharing
+
 ## Authors
 * **Zuhal ‘Alimul Hadi** - *2006531314* - *B*
 * **Andrea Debora Narulita** - *2006530311* - *B*
